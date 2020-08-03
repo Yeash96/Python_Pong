@@ -8,7 +8,7 @@ class Player(pygame.sprite.Sprite):
     
 
     # Constructor that runs with defaults
-    def  __init__(self,p_Num: int = 1, width: int = 10,height: int = 40, boardDim: tuple =None):  
+    def  __init__(self,p_Num: int = 1, width: int = 10,height: int = 40, boardDim: tuple =None, bounds: int =40):  
 
         # Checks if the values passed for the player num are appropriate.
         if p_Num > 2 or p_Num < 1:
@@ -31,7 +31,7 @@ class Player(pygame.sprite.Sprite):
         # Use the dimensions to establish the sprite's shape:
         self.rect = self.image.get_rect()
         # Create a limiter for how  much buffer space is between the the end points of the sprite and the game window's walls.
-        self.h_lim = height
+        self.bounds = bounds
         # Store data of which player this is.
         self.p_Num = p_Num
 
@@ -72,9 +72,9 @@ class Player(pygame.sprite.Sprite):
         # Movemnets are only vertical
 
         # Does not allow movement further than the limit established - based on the position of the center of the sprite.
-        if self.rect.centery >= self.y_Board - self.h_lim and y_move > 0:
+        if self.rect.centery >= self.y_Board - self.bounds and y_move > 0:
             pass        
-        elif self.rect.centery <= 0 + self.h_lim and y_move < 0:
+        elif self.rect.centery <= 0 + self.bounds and y_move < 0:
             pass          
         else:
             # Otherwise, adjust movement based on the established speed. of the paddles - Can also be moved within the Class declaration.
