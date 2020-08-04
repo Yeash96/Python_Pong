@@ -16,10 +16,13 @@ class Ball(pygame.sprite.Sprite):
         #inital postion
         self.rect.centerx = window_width/2
         self.rect.centery = window_height/2
+        
         #random speed lists
         speedlist = [ -10, -5, -1, 1, 5,10]
-        if velocityX is None:
+        #if horizantle velocity is not defined then select random one form speed list
+        if velocityX is None:               
             velocityX = choice( speedlist )
+        #if Verticle velocity is not defined then select random one form speed list
         if velocityY is None:
             velocityY = choice( speedlist )
         # velocity values
@@ -50,13 +53,14 @@ class Ball(pygame.sprite.Sprite):
     def GetPositionLR( self ):
        #return tulpe with left most and right most ball postion value
        return ( self.rect.left, self.rect.right )
-    
+ 
+
+ 
 def MakeBall(  ):
+#make a ball function
     ball = Ball()
     return ball
-   #====================TO DO========================================================== 
-   #kill ball
-   #rest ball
+   
     
     
   
@@ -101,14 +105,13 @@ def balltest():
     border.add( topwall, bottomwall, leftwall, rightwall )
     bounds = pygame.Rect( 10, 10, window_width-20, window_height-20 ) #create rect value of the playing feild used to find border collisions
                         # ( top, left, bottom, right)
+                        
+                        
    #'''below is ball draw instruction'''
-    ballList = []
     balls_group = pygame.sprite.Group()#create sprite group
     oneball = Ball()#create instance
-    
     oneball.SetPostion( window_width/2, window_height/2 ) #set inital postion
     balls_group.add( oneball ) #add instance to sprite group
-    ballList.append(oneball)
     
     while ( running ):
         for event in pygame.event.get():
@@ -116,6 +119,7 @@ def balltest():
                 #print("you hit the x")
                 running = False
             elif event.type == pygame.KEYDOWN:
+                #if spacebar is pressed create a new ball instance and add it to balls_group
                 if event.key == pygame.K_SPACE:
                     sphere = MakeBall()
                     balls_group.add( sphere )
@@ -124,7 +128,7 @@ def balltest():
         border.draw( window )#comit border to window surface
         
         for balls in balls_group:
-            balls.Movement()  #move ball
+            balls.Movement()  #move command for each instance of BallClass
             
         balls_group.draw( window ) #commit the new location of the ball sprite to window surface
         #print( oneball.GetPositionLR() )#print left most and right most ball postion onto console 
