@@ -1,22 +1,22 @@
 import pygame
 from random import choice
 
-window_size = window_width, window_height = 960, 540 #initial window size
 
+
+window_size = window_width, window_height = 960, 540 #initial window size
 
 class Ball(pygame.sprite.Sprite):
     
     
-    def __init__( self, width = 25, height = 25,  velocityX = None, velocityY = None ):
+    def __init__( self, width = 25, height = 25, velocityX = None, velocityY = None ):
         super(Ball,self ).__init__()
        #  things needed to draw object below
         self.image = pygame.Surface( ( width, height ) )
         self.image.fill ( pygame.Color( 255, 255, 255 ) )
         self.rect = self.image.get_rect()
         #inital postion
-        self.rect.centerx = window_width/2
+        self.rect.centerx = window_width/2 
         self.rect.centery = window_height/2
-        #random speed lists
         speedlist = [ -10, -5, -1, 1, 5,10]
         if velocityX is None:
             velocityX = choice( speedlist )
@@ -85,7 +85,7 @@ def balltest():
     
      #windows display  below
     pygame.display.set_caption( "Ball Test" ) # window caption
-    window_size = window_width, window_height = 960, 540 #initial window size
+
     window = pygame.display.set_mode( window_size )
     
     #''' below is border wall draw commands'''
@@ -110,6 +110,17 @@ def balltest():
     balls_group.add( oneball ) #add instance to sprite group
     ballList.append(oneball)
     
+    zone = pygame.sprite.Group()
+    leftzone = Block( 20, window_height-20)
+    leftzone.SetPostion(10,10)
+    leftzone.image.fill ( pygame.Color(255,0,0) )
+    rightzone = Block( 20, window_height-20)
+    rightzone.SetPostion( window_width-30, 10)
+    rightzone.image.fill ( pygame.Color(255,0,0) )
+    zone.add( leftzone, rightzone )
+    zone.draw( window )
+    
+    
     while ( running ):
         for event in pygame.event.get():
             if ( event.type == pygame.QUIT ):
@@ -122,13 +133,15 @@ def balltest():
                     ballList.append(sphere)
                     
         border.draw( window )#comit border to window surface
-        
+        zone.draw( window )
         for balls in balls_group:
             balls.Movement()  #move ball
             
         balls_group.draw( window ) #commit the new location of the ball sprite to window surface
         #print( oneball.GetPositionLR() )#print left most and right most ball postion onto console 
-         
+        
+        pygame.sprite.groupcollide( balls_group, zone, True, False )
+        
         pygame.display.update() #update/ draw|display window suface 
         window.fill( pygame.Color( 0, 0, 0 ) ) #reset the screen back to blank
         #collision = pygame.sprite.spritecollideany( oneball, border )#test for collision return none if no collision
@@ -136,6 +149,8 @@ def balltest():
         #    oneball.ChangeVelocity( bounds )#change velocity
         for balls in balls_group:
             balls.ChangeVelocity( bounds )
+            
+            
         clock.tick( frames_per_seconds)#fps limiter
     pygame.quit()#de initalize pygame
     
