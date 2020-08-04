@@ -13,6 +13,7 @@ scoreB = 0
 clock = pygame.time.Clock()
 fps = 60
 
+
 running = True
 while running:
     for event in pygame.event.get():
