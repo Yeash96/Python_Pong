@@ -6,7 +6,6 @@ print("<('w')>")
 
 
 # Python packages
-import pygetwindow as gw    # For future use to get window size
 import pygame               # Python game creation framework - the main backend.
 import sys                  
 
@@ -25,7 +24,7 @@ def main():
 
 
     # Initialize pygame and its assets so they can be used
-    pygame.init()
+    pygame.init() 
 
     # Create player objects for the paddles.
     p1 = Player(1, boardDim=(win_W, win_H))
@@ -38,7 +37,7 @@ def main():
     pygame.display.set_caption( "Player Test" ) 
     
     # Create a group of sprites that will update with inputs and display movement
-    player_Group = pygame.sprite.Group()
+    player_Group = pygame.sprite.Group()  
     player_Group.add(p1)
     player_Group.add(p2)
 
@@ -54,6 +53,8 @@ def main():
         # pygame will listen for keyboard inputs.
         #   May be moved to player class later
         pressed = pygame.key.get_pressed()
+        
+        # V1 - Uses move - (v1)
         # Listens for the w and s keys to move Player 1.
         if pressed[pygame.K_w]:
             p1.move(-p_Speed)
@@ -65,6 +66,7 @@ def main():
         elif pressed[pygame.K_DOWN]:
             p2.move(p_Speed)
 
+
         
         
         # Draws the player sprites to the display window
@@ -75,6 +77,7 @@ def main():
         window.fill(pygame.Color(0,0,0))
         # Limits FPS to 60
         clock.tick(fps)
+        # print(p2.rect.right)
 
         
 
