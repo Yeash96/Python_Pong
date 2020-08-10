@@ -33,12 +33,15 @@ class Player(pygame.sprite.Sprite):
         # Create the sprite for the character paddle onto the surface of the game window with the appropriate dimensions.
         self.image = pygame.Surface((self.width, self.bounds))
         # Set the default player paddle color to white.
-        self.image.fill (pygame.Color(255, 255, 255))
+        self.color = pygame.Color(255, 255, 255)
+        self.image.fill (self.color)
         # Use the dimensions to establish the sprite's shape:
         self.rect = self.image.get_rect()
         
         # Store data of which player this is.
         self.p_Num = p_Num
+
+        self.speed = 12
 
 
 
@@ -69,17 +72,29 @@ class Player(pygame.sprite.Sprite):
 
     # Function is called whenever input is given
     # TODO: Modify this so that it reads the input and does the movement making within the function.
-    def move(self, y_move: int):
+    def move(self):
         # Movemnets are only vertical
-
+        pressed = pygame.key.get_pressed()
+        
         # Does not allow movement further than the limit established - based on the position of the center of the sprite.
-        if self.rect.centery >= self.y_Board - self.bounds and y_move > 0:
-            pass        
-        elif self.rect.centery <= 0 + self.bounds and y_move < 0:
-            pass          
+        if self.rect.centery >= self.y_Board - self.bounds:
+            if pressed[pygame.K_w] or pressed[pygame.K_UP]:
+                self.rect.centery -= self.speed     
+        elif self.rect.centery <= 0 + self.bounds:
+            if pressed[pygame.K_s] or pressed[pygame.K_DOWN]:
+                self.rect.centery += self.speed       
         else:
-            # Otherwise, adjust movement based on the established speed. of the paddles - Can also be moved within the Class declaration.
-            self.rect.centery += y_move
+            if pressed[pygame.K_w] or pressed[pygame.K_UP]:
+                self.rect.centery -= self.speed
+            elif pressed[pygame.K_s] or pressed[pygame.K_DOWN]:
+                self.rect.centery += self.speed
 
+
+    def draw(self,win):
+        win.fill(pygame.Color(0,0,0))
+        pygame.draw.rect(win, self.color, self.rect)
+
+        
+            
 
 
