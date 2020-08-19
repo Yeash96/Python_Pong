@@ -9,41 +9,59 @@ print("<('w')>")
 import pygame               # Python game creation framework - the main backend.
 import asyncio, sys                  
 
-from modules import Network, Player  # Player module for the pong paddles.
+from modules import Network, Player2, Spectator  # Player module for the pong paddles.
+
+# Create static variables:
+fps = 60                    # The standard frames per second - limited so that the game does not automatically 
+                            #   use all system resources.
+p_Speed = 12                # The current speed the player paddles move at.
+win_W, win_H = 960, 540     # Dimensions for the current game window.
+
+# Initialize pygame and its assets so they can be used
+pygame.init() 
+
+def read_Pos(string: str):
+    string = string.split(",")
+    return int(string[0]), int(string[1])
+def make_pos(pos: tuple):
+    return str(pos[0]) + "," + str(pos[1])
 
 
 
-def redrawWindow(window):
+def redrawWindow(window, p, op):
     window.fill(pygame.Color(0,0,0))
-    player_Group.draw(window)
-    # Draws the player sprites to the display window
-    # Updates the display window whenever the sprites update
+    p.draw(window)
     pygame.display.update()
-    # Updates the window so that areas where sprites were previouslyu return to the display window's background color.
-    # Limits FPS to 60
-    # print(p2.rect.right)
 
 
 
 # The main loop.
 def main():
     n = Network()
-
-    # Create static variables:
-    fps = 60                    # The standard frames per second - limited so that the game does not automatically 
-                                #   use all system resources.
-    p_Speed = 12                # The current speed the player paddles move at.
-    win_W, win_H = 960, 540     # Dimensions for the current game window.
+    # print(n.server)
     clock = pygame.time.Clock() # Used with fps variable to limit the fps of the game.
+    startPos = read_Pos(n.getPos())
+    p_Num = int(n.getP())
+    print("Player", p_Num)
 
-
-    # Initialize pygame and its assets so they can be used
-    pygame.init() 
     
-    start.Pos = n.getPos()
+
+    # # Create static variables:
+    # fps = 60                    # The standard frames per second - limited so that the game does not automatically 
+    #                             #   use all system resources.
+    # p_Speed = 12                # The current speed the player paddles move at.
+    # win_W, win_H = 960, 540     # Dimensions for the current game window.
+
+
+    
 
     # Create player objects for the paddles.
-    p = Player(1, boardDim=(win_W, win_H))
+    # TODO: write a way to create opponet
+    if p_Num <= 1:
+        p = Player2(p_Num, boardDim=(win_W, win_H))
+        # op = Player2
+    else:
+        p = Spectator(p_Num)
 
     # create an object that represents the display window.
     window = pygame.display.set_mode( (win_W, win_H) )
@@ -53,12 +71,16 @@ def main():
     
     # Create a group of sprites that will update with inputs and display movement
     player_Group = pygame.sprite.Group()  
-    player_Group.add(p1)
-    player_Group.add(p2)
+    # player_Group.add(p1)
+    # player_Group.add(p2)
+    player_Group.add(p)
+    player_Group.add(op)
 
     # The main game loop. Runs until the exit button is clicked. May add exit function within main menu.
     while True:
         clock.tick(fps)
+
+        opPos = n.send(make_pos((p.rect.centerx,p.rect.centery))  )
 
 
         # Checks if the game is exited.
@@ -84,7 +106,7 @@ def main():
             p2.move(p_Speed)
 
 
-        redrawWindow(window, player_Group)
+        redrawWindow(window, p, op)
         
 
 

@@ -5,7 +5,9 @@ class Network:
         
         self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-        self.server = "192.168.1.245"
+        self.hostname = socket.gethostname()
+        self.server = socket.gethostbyname(self.hostname)
+        print("Network server:\t", self.server)
         self.port = 5555
         self.addr = (self.server, self.port)
         self.pos = self.connect()
@@ -18,7 +20,7 @@ class Network:
     def connect(self):
         try:
             self.client.connect(self.addr)
-            return self.client.recv(2048)
+            return self.client.recv(2048).decode()
         except:
 
             pass
@@ -26,7 +28,7 @@ class Network:
     def send(self, data):
         try:
             self.client.send(str.encode(data))
-            return self.client.recv(2048).decode
+            return self.client.recv(2048).decode()
         except socket.error as e:
             print(e)
 

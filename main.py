@@ -8,13 +8,14 @@ print("<('w')>")
 # Python packages
 import pygame               # Python game creation framework - the main backend.
 import sys
-import asyncio                  
+# import asyncio                  
 
 from modules import Player  # Player module for the pong paddles.
 
 
 # The main loop.
 async def main():
+def main():
 
     # Create static variables:
     fps = 60                    # The standard frames per second - limited so that the game does not automatically 
@@ -57,19 +58,6 @@ async def main():
 
         p1.move()
         p2.move()
-        
-        # V1 - Uses move - (v1)
-        # Listens for the w and s keys to move Player 1.
-        # if pressed[pygame.K_w]:
-        #     p1.move(-p_Speed)
-        # elif pressed[pygame.K_s]:
-        #     p1.move(p_Speed)
-        # # Listens for the UP_arrow and DOWN_arrow keys to move Player 2.
-        # if pressed[pygame.K_UP]:
-        #     p2.move(-p_Speed)
-        # elif pressed[pygame.K_DOWN]:
-        #     p2.move(p_Speed)
-
 
         
         
@@ -90,6 +78,7 @@ async def main():
 
 # Runs the main function  when the program is run
 if __name__ == '__main__':
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(main())
-    loop.close()
+    # loop = asyncio.get_event_loop()
+    # loop.run_until_complete(main())
+    # loop.close()
+    main()

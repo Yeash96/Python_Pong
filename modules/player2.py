@@ -3,23 +3,13 @@ import pygame               # Import the backend game engine module.
 import sys                  # Used to exit the game.
 
 # Player class for pong Paddles. Inherits from pygame's Sprite class
-class Player(pygame.sprite.Sprite):
+class Player2(pygame.sprite.Sprite):
     
 
     # Constructor that runs with defaults
     # def  __init__(self,p_Num: int = 1, width: int = 10,height: int = 40, boardDim: tuple = None, bounds: int = 40):  
-    def  __init__(self,p_Num: int = 1, boardDim: tuple = None):  
-
-        # Checks if the values passed for the player num are appropriate.
-        if p_Num > 2 or p_Num < 1:
-            print("Improper character value passed. Please pass a \"1\" or \"2\".")
-            pygame.quit()
-            sys.exit()
-
-        if not boardDim:
-            print("Please pass board dimensions as a tuple: (x,y).")
-            pygame.quit()
-            sys.exit()            
+    def  __init__(self,p_Num: int=0, boardDim: tuple = None):  
+     
             
         # Run the constructor of the parent class to initialize other factors
         super().__init__()  
@@ -44,18 +34,15 @@ class Player(pygame.sprite.Sprite):
         self.speed = 12
 
 
-
-        # board/windows parameters
-
         # Establish the default position of each player
-        if self.p_Num == 1:
+        if self.p_Num == 0:
             self.def_x_pos = self.x_Board  // 10     
             self.def_y_pos = self.y_Board  // 2
             
         else:
             self.def_x_pos = self.x_Board  * 9 // 10     
             self.def_y_pos = self.y_Board  // 2
-        
+
         # Starts each player sprite in the default position.
         self.setPos(self.def_x_pos,self.def_y_pos)
 
@@ -70,6 +57,10 @@ class Player(pygame.sprite.Sprite):
         self.rect.centerx = x
         self.rect.centery = y
 
+    def update(self):
+        pass
+
+
     # Function is called whenever input is given
     # TODO: Modify this so that it reads the input and does the movement making within the function.
     def move(self):
@@ -77,42 +68,17 @@ class Player(pygame.sprite.Sprite):
         pressed = pygame.key.get_pressed()
         
         # Does not allow movement further than the limit established - based on the position of the center of the sprite.
-        # if self.rect.centery >= self.y_Board - self.bounds:
-        #     if pressed[pygame.K_w] or pressed[pygame.K_UP]:
-        #         self.rect.centery -= self.speed     
-        # elif self.rect.centery <= 0 + self.bounds:
-        #     if pressed[pygame.K_s] or pressed[pygame.K_DOWN]:
-        #         self.rect.centery += self.speed       
-        # else:
-        #     if pressed[pygame.K_w] or pressed[pygame.K_UP]:
-        #         self.rect.centery -= self.speed
-        #     elif pressed[pygame.K_s] or pressed[pygame.K_DOWN]:
-        #         self.rect.centery += self.speed
-
-        if self.p_Num == 1:
-            if self.rect.centery >= self.y_Board - self.bounds:
-                if pressed[pygame.K_w]:
-                    self.rect.centery -= self.speed     
-            elif self.rect.centery <= 0 + self.bounds:
-                if pressed[pygame.K_s]:
-                    self.rect.centery += self.speed       
-            else:
-                if pressed[pygame.K_w]:
-                    self.rect.centery -= self.speed
-                elif pressed[pygame.K_s]:
-                    self.rect.centery += self.speed        
+        if self.rect.centery >= self.y_Board - self.bounds:
+            if pressed[pygame.K_w] or pressed[pygame.K_UP]:
+                self.rect.centery -= self.speed     
+        elif self.rect.centery <= 0 + self.bounds:
+            if pressed[pygame.K_s] or pressed[pygame.K_DOWN]:
+                self.rect.centery += self.speed       
         else:
-            if self.rect.centery >= self.y_Board - self.bounds:
-                if pressed[pygame.K_UP]:
-                    self.rect.centery -= self.speed     
-            elif self.rect.centery <= 0 + self.bounds:
-                if pressed[pygame.K_DOWN]:
-                    self.rect.centery += self.speed       
-            else:
-                if pressed[pygame.K_UP]:
-                    self.rect.centery -= self.speed
-                elif pressed[pygame.K_DOWN]:
-                    self.rect.centery += self.speed
+            if pressed[pygame.K_w] or pressed[pygame.K_UP]:
+                self.rect.centery -= self.speed
+            elif pressed[pygame.K_s] or pressed[pygame.K_DOWN]:
+                self.rect.centery += self.speed
 
 
     def draw(self,win):
