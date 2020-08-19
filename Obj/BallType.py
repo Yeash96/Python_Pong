@@ -123,7 +123,7 @@ def balltest():
                 if event.key == pygame.K_SPACE:
                     sphere = MakeBall()
                     balls_group.add( sphere )
-                    ballList.append(sphere)
+                    #ballList.append(sphere)
                     
         border.draw( window )#comit border to window surface
         
@@ -140,7 +140,10 @@ def balltest():
         #    oneball.ChangeVelocity( bounds )#change velocity
         for balls in balls_group:
             balls.ChangeVelocity( bounds )
+ 
         clock.tick( frames_per_seconds)#fps limiter
+        
+    
     pygame.quit()#de initalize pygame
     
 

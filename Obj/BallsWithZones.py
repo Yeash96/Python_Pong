@@ -1,8 +1,6 @@
 import pygame
 from random import choice
 
-
-
 window_size = window_width, window_height = 960, 540 #initial window size
 
 class Ball(pygame.sprite.Sprite):
@@ -54,9 +52,7 @@ class Ball(pygame.sprite.Sprite):
 def MakeBall(  ):
     ball = Ball()
     return ball
-   #====================TO DO========================================================== 
-   #kill ball
-   #rest ball
+
     
     
   
@@ -102,13 +98,13 @@ def balltest():
     bounds = pygame.Rect( 10, 10, window_width-20, window_height-20 ) #create rect value of the playing feild used to find border collisions
                         # ( top, left, bottom, right)
    #'''below is ball draw instruction'''
-    ballList = []
+    #ballList = []
     balls_group = pygame.sprite.Group()#create sprite group
     oneball = Ball()#create instance
     
     oneball.SetPostion( window_width/2, window_height/2 ) #set inital postion
     balls_group.add( oneball ) #add instance to sprite group
-    ballList.append(oneball)
+    #ballList.append(oneball)
     
     zone = pygame.sprite.Group()
     leftzone = Block( 20, window_height-20)
@@ -130,7 +126,7 @@ def balltest():
                 if event.key == pygame.K_SPACE:
                     sphere = MakeBall()
                     balls_group.add( sphere )
-                    ballList.append(sphere)
+                   # ballList.append(sphere)
                     
         border.draw( window )#comit border to window surface
         zone.draw( window )
