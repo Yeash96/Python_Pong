@@ -14,7 +14,7 @@ from modules import Player  # Player module for the pong paddles.
 
 
 # The main loop.
-async def main():
+# async def main():
 def main():
 
     # Create static variables:

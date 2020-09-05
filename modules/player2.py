@@ -8,7 +8,7 @@ class Player2(pygame.sprite.Sprite):
 
     # Constructor that runs with defaults
     # def  __init__(self,p_Num: int = 1, width: int = 10,height: int = 40, boardDim: tuple = None, bounds: int = 40):  
-    def  __init__(self,p_Num: int=0, boardDim: tuple = None):  
+    def  __init__(self,loc: tuple=(0,0), boardDim: tuple = (960,540)):  
      
             
         # Run the constructor of the parent class to initialize other factors
@@ -28,20 +28,23 @@ class Player2(pygame.sprite.Sprite):
         # Use the dimensions to establish the sprite's shape:
         self.rect = self.image.get_rect()
         
-        # Store data of which player this is.
-        self.p_Num = p_Num
+        # # Store data of which player this is.
+        # self.p_Num = p_Num
 
-        self.speed = 12
+        self.velocity = 12
+        # for l in loc:
+        #     print(l)
+        print(loc[0])
 
-
-        # Establish the default position of each player
-        if self.p_Num == 0:
-            self.def_x_pos = self.x_Board  // 10     
-            self.def_y_pos = self.y_Board  // 2
+        # # Establish the default position of each player
+        self.def_x_pos,self.def_y_pos = loc
+        # if self.p_Num == 0:
+        #     self.def_x_pos = self.x_Board  // 10     
+        #     self.def_y_pos = self.y_Board  // 2
             
-        else:
-            self.def_x_pos = self.x_Board  * 9 // 10     
-            self.def_y_pos = self.y_Board  // 2
+        # else:
+        #     self.def_x_pos = self.x_Board  * 9 // 10     
+        #     self.def_y_pos = self.y_Board  // 2
 
         # Starts each player sprite in the default position.
         self.setPos(self.def_x_pos,self.def_y_pos)
@@ -57,8 +60,8 @@ class Player2(pygame.sprite.Sprite):
         self.rect.centerx = x
         self.rect.centery = y
 
-    def update(self):
-        pass
+    # def update(self):
+    #     pass
 
 
     # Function is called whenever input is given
