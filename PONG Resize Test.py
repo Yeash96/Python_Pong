@@ -17,6 +17,42 @@ window = pygame.display.set_mode ((window_size), pygame.RESIZABLE) #---------> s
 running = True
 
 clock = pygame.time.Clock() 
+class Block(pygame.sprite.Sprite):
+
+    
+    def __init__( self, width, height ):
+        super(Block,self ).__init__()
+        #''' things needed to draw object below'''
+        self.image = pygame.Surface( (width,height) ) 
+        self.image.fill ( pygame.Color(0,0,255) )
+        self.rect = self.image.get_rect()
+        
+    def Setpostion(self, x, y):
+        self.rect.x = x
+        self.rect.y = y
+        
+    def UpdateSize(self, width, height): #update surface
+        self.image = pygame.Surface( (width, height ) )
+        self.image.fill ( pygame.Color(0,0,255) )
+        self.rect = self.image.get_rect()
+     
+     
+border=pygame.sprite.Group()
+topwall = Block( window_width, 10 )
+topwall.Setpostion( 0, 0 )
+bottomwall = Block( window_width,10 )
+bottomwall.Setpostion( 0, window_height-10 )
+leftwall = Block( 10, window_height )
+leftwall.Setpostion(0,0)
+rightwall = Block( 10, window_height)
+rightwall.Setpostion( window_width-10, 0)
+bounds = pygame.Rect( 10, 10, window_width-20, window_height-20 )
+board =  Block( bounds.w , bounds.h)
+board.Setpostion(10,10)
+board.image.fill ( pygame.Color(0,255,0) )
+border.add( topwall, bottomwall, leftwall, rightwall, board )
+border.add( board)
+border.draw( window )        
 
 while running:
 
@@ -28,18 +64,35 @@ while running:
 
             if event.type == VIDEORESIZE:
                 window = pygame.display.set_mode ((event.w, event.h), pygame.RESIZABLE)
+                window_size = window_width, window_height = event.w, event.h 
+                print(window_height)
+                bounds = pygame.Rect( 10, 10, window_width-20, window_height-20 )
+     
+                board.UpdateSize( bounds.w, bounds.h )#u[date surface 
+                board.Setpostion(10,10)
+                
+                topwall.UpdateSize( window_width, 10 )
+                topwall.Setpostion( 0, 0 )
+                bottomwall.UpdateSize( window_width, 10 )
+                bottomwall.Setpostion( 0, window_height-10 )
+                leftwall.UpdateSize( 10, window_height )
+                leftwall.Setpostion( 0, 0 )
+                rightwall.UpdateSize( 10, window_height )
+                rightwall.Setpostion( window_width-10, 0 )                
 
-#-----------PUT OBJECTS ETC IN HERE-----------------
-        #Making the fill in color black for window resizing/once again I think the default colors are black and white  
-        window.fill(BLACK)
+                board.image.fill ( pygame.Color(0,255,0) )
+                print(bounds.h)
+                border.draw( window )
+       
 
-        #drawing the middle line ---------> need to get this to update based on x,y values only 
-        pygame.draw.line(window, WHITE, [475, 0], [475, 540], 5)
-        #updating the display
-        pygame.display.flip() 
 
+
+        border.draw( window )
+        pygame.draw.line(window, WHITE, [475, 0], [475, window_height], 5)
+        pygame.display.update()
         clock.tick(60) #60 FPS
-        
+        window.fill(BLACK)
+        #print("end cycle")
 #Ends the program/event
 pygame.quit()
             

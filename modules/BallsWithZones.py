@@ -44,6 +44,9 @@ class Ball(pygame.sprite.Sprite):
         #if ball top or bottom side is out of bounds the change velocity direction     
         if self.rect.top < bounds.top or self.rect.bottom > bounds.bottom:
             self.vvelo = -self.vvelo
+            
+    def Paddle(self):
+        self.hvelo = -self.hvelo
 
     def GetPositionLR( self ):
        #return tulpe with left most and right most ball postion value
@@ -61,17 +64,23 @@ class Block( pygame.sprite.Sprite ):
     
     
     def __init__( self, width, height ):
-        super(Block,self ).__init__()
+        super(Block , self ).__init__()
         # things needed to draw object below
         self.image = pygame.Surface( ( width, height ) ) 
         self.image.fill ( pygame.Color( 0, 0, 255 ) )
         self.rect = self.image.get_rect()
         
+        
     def SetPostion( self, x, y ):
         #set postion of block
         self.rect.x = x
         self.rect.y = y
-    
+        
+    def UpdateSize(self, width, height):
+        #update surface
+        self.image = pygame.Surface( (width, height ) )
+        self.image.fill ( pygame.Color( 0, 0, 255 ) )
+        self.rect = self.image.get_rect()    
 # following is used to debug but should not run unless executing this file    
 def balltest():
     pygame.init() #inital pygame

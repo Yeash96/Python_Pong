@@ -69,6 +69,25 @@ class Player(pygame.sprite.Sprite):
     def setPos(self, x: int, y: int):
         self.rect.centerx = x
         self.rect.centery = y
+      
+    def setPosinGame(self,p_Num: int = 1, boardDim: tuple = None,):
+        self.x_Board, self.y_Board = boardDim
+        print(self.x_Board)
+        if self.p_Num == 1:
+            self.def_x_pos = self.x_Board  // 10     
+            self.def_y_pos = self.y_Board  // 2
+            
+        else:
+            self.def_x_pos = self.x_Board  * 9 // 10     
+            self.def_y_pos = self.y_Board  // 2
+                # Create the sprite for the character paddle onto the surface of the game window with the appropriate dimensions.
+        self.image = pygame.Surface((self.width, self.bounds))
+        # Set the default player paddle color to white.
+        self.color = pygame.Color(255, 255, 255)
+        self.image.fill (self.color)
+        # Use the dimensions to establish the sprite's shape:
+        self.rect = self.image.get_rect()
+        self.setPos(self.def_x_pos,self.def_y_pos)
 
     # Function is called whenever input is given
     # TODO: Modify this so that it reads the input and does the movement making within the function.
