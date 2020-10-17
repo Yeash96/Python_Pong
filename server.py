@@ -24,12 +24,14 @@ server = socket.gethostbyname(hostname)
 port = 5555
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
+Pnum = 0
+
 try:
     s.bind((server,port))
 except socket.error as e:
     print(e)
 
-s.listen(2)
+s.listen(8)
 print("Server started. Waiting for connection.")
 
 
@@ -54,31 +56,40 @@ def threaded_client(conn,current_Player):
             # print(1)
             data = read_Pos(conn.recv(2048).decode())
             # print(2)
-            pos[current_Player] = data
             # print ("POS in server:", pos)
-           
+            pos[current_Player] = data
+
             if not data:
                 print("Disconnected")
                 break
             else:
+
                 if current_Player == 0:
-                    reply = (0,pos[1])
-
+                    # reply = (current_Player,pos[1])
+                    reply = pos[1]
+                    print("Recveived:", data)
                 elif current_Player == 1:
-                    reply = (1,pos[0])
+                    # reply = (current_Player,pos[0])
+                    reply = pos[0]
+                    print("Recveived:", data)
                 else:
-                    reply = (current_Player,pos)
+                    # reply = (current_Player,pos)
+                    reply = pos
 
-            print("Recveived:", data)
             print("Sending:", reply)
 
             conn.sendall(str.encode(make_pos(reply)))
         except:
             # print("except", reply)
             break
+
+        if current_Player > 1:
+            reply = pos
+            conn.sendall(str.encode(make_pos(reply)))
     
     print("Lost connection")
     current_Player -= 1
+    
     conn.close()
     
     

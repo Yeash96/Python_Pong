@@ -73,15 +73,15 @@ class Player2(pygame.sprite.Sprite):
         # Does not allow movement further than the limit established - based on the position of the center of the sprite.
         if self.rect.centery >= self.y_Board - self.bounds:
             if pressed[pygame.K_w] or pressed[pygame.K_UP]:
-                self.rect.centery -= self.speed     
+                self.rect.centery -= self.velocity     
         elif self.rect.centery <= 0 + self.bounds:
             if pressed[pygame.K_s] or pressed[pygame.K_DOWN]:
-                self.rect.centery += self.speed       
+                self.rect.centery += self.velocity       
         else:
             if pressed[pygame.K_w] or pressed[pygame.K_UP]:
-                self.rect.centery -= self.speed
+                self.rect.centery -= self.velocity
             elif pressed[pygame.K_s] or pressed[pygame.K_DOWN]:
-                self.rect.centery += self.speed
+                self.rect.centery += self.velocity
 
 
     def draw(self,win):

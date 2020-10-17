@@ -11,22 +11,34 @@ import sys
 
 from modules import Network, Player2, Spectator  # Player module for the pong paddles.
 
+
+
+#TODO Player number
 # Create static variables:
 fps = 60                    # The standard frames per second - limited so that the game does not automatically 
                             #   use all system resources.
 p_Speed = 12                # The current speed the player paddles move at.
 win_W, win_H = 960, 540     # Dimensions for the current game window.
 
+win = pygame.display.set_mode((win_W,win_H))
+pygame.display.set_caption("Player ",str(Pnum+1))
+
 # Initialize pygame and its assets so they can be used
 pygame.init() 
 
+
 def read_Pos(string: str):
-    # print(string)
+    print(string)
     string = string.split(",")
     return int(string[0]), int(string[1])
 def make_pos(pos: tuple):
     return str(pos[0]) + "," + str(pos[1])
 
+
+def read_Pos_Spec(string: str):
+    string = string.split(",")
+
+    return int(string[0]),int(string[1]),int(string[2]),int(string[3]),
 
 
 # def redrawWindow(window, p, op):
@@ -45,84 +57,63 @@ def main():
     # print(n.server)
     clock = pygame.time.Clock() # Used with fps variable to limit the fps of the game.
     player_Pos = n.getPos()
-    player = Player2(read_Pos(player_Pos))
-    # opponent =P
-    # player = (p)
-    # p_num = p_and_Pos[0]
-    # print("Player", p_Num)
 
-    
+    print ("Pnum: ", Pnum)
 
-    
-    
+    if Pnum <= 1:
+        player = Player2(read_Pos(player_Pos))
+        opp = Player2()
 
-    
+        p_Group = pygame.sprite.Group() 
+        p_Group.add(player)            
+        p_Group.add(opp)            
 
-    # # Create static variables:
-    # fps = 60                    # The standard frames per second - limited so that the game does not automatically 
-    #                             #   use all system resources.
-    # p_Speed = 12                # The current speed the player paddles move at.
-    # win_W, win_H = 960, 540     # Dimensions for the current game window.
+        while True:
+            clock.tick(fps)
 
-    print("tmp Done")
-    
+            opp.rect.centerx, opp.rect.centery = read_Pos(n.send(make_pos((player.rect.centerx,player.rect.centery)) ))
+            opp.update()
 
-    # # Create player objects for the paddles.
-    # # TODO: write a way to create opponet
-    # if p_Num <= 1:
-    #     p = Player2(p_Num, boardDim=(win_W, win_H))
-    #     # op = Player2
-    # else:
-    #     p = Spectator(p_Num)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    run = False
+                    pygame.quit()
 
-    # # create an object that represents the display window.
-    # window = pygame.display.set_mode( (win_W, win_H) )
+            player.move()
+            redrawWindow(win,p_Group)
+    else:
+        p1 = Player2()
+        p2 = Player2()
 
-    # # Test window title.
-    # pygame.display.set_caption( "Client Player Test" ) 
-    
-    # # Create a group of sprites that will update with inputs and display movement
-    # player_Group = pygame.sprite.Group()  
-    # # player_Group.add(p1)
-    # # player_Group.add(p2)
-    # player_Group.add(p)
-    # player_Group.add(op)
+        p_Group = pygame.sprite.Group() 
+        p_Group.add(p1)            
+        p_Group.add(p2)    
 
-    # # The main game loop. Runs until the exit button is clicked. May add exit function within main menu.
-    while True:
-        clock.tick(fps)
+        while True:
+            clock.tick(fps)
 
-        opPos = read_Pos(n.send(make_pos((player.rect.centerx,player.rect.centery)) ))
-    #     # op.rect.centerx,opPos.rect.centery = opPos
-    #     op.rect.y = opPos[1]
+            p1.rect.centerx, p1.rect.centery = n.getPosSpect()
+            p2.rect.centerx, p2.rect.centery
+
+            p1.update()
+            p2.update()
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    run = False
+                    pygame.quit()
+
+            player.move()
+            redrawWindow(win,p_Group)
 
 
-    #     # Checks if the game is exited.
-    #     for event in pygame.event.get():
-    #         if event.type == pygame.QUIT : 
-    #             pygame.quit()
-    #             sys.exit()
 
-    #     # pygame will listen for keyboard inputs.
-    #     #   May be moved to player class later
-    #     pressed = pygame.key.get_pressed()
+    Pnum+=1
+
+
+
         
-    #     # V1 - Uses move - (v1)
-    #     # Listens for the w and s keys to move Player 1.
-    #     if pressed[pygame.K_w]:
-    #         p1.move(-p_Speed)
-    #     elif pressed[pygame.K_s]:
-    #         p1.move(p_Speed)
-    #     # Listens for the UP_arrow and DOWN_arrow keys to move Player 2.
-    #     if pressed[pygame.K_UP]:
-    #         p2.move(-p_Speed)
-    #     elif pressed[pygame.K_DOWN]:
-    #         p2.move(p_Speed)
-
-
-    #     redrawWindow(window, player_Group)
-        
-
+   
 
         
 

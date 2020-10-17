@@ -13,6 +13,7 @@ class Network:
         self.pos = self.connect()
         # print(self.pos)
         # print(self.id)
+        self.buffer = 2048
 
 
     def getPos(self):
@@ -21,14 +22,20 @@ class Network:
     def connect(self):
         try:
             self.client.connect(self.addr)
-            return self.client.recv(2048).decode()
+            return self.client.recv(self.buffer).decode()
         except:
             pass
     
     def send(self, data):
         try:
             self.client.send(str.encode(data))
-            return self.client.recv(2048).decode()
+            return self.client.recv(self.buffer).decode()
+        except socket.error as e:
+            print(e)
+
+    def getPosSpect(self):
+        try:
+            return self.client.recv(self.buffer).decode()
         except socket.error as e:
             print(e)
 
